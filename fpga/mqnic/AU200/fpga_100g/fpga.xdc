@@ -165,7 +165,10 @@ set_property PACKAGE_PIN BB21 [get_ports status_led1_fpga]
 set_property PACKAGE_PIN BA20 [get_ports status_led2_fpga]
 
 set_property PACKAGE_PIN AL20 [get_ports cpu_reset_fpga_n]
-set_property PACKAGE_PIN AM11 [get_ports pcie_refclk_p]
+set_property PACKAGE_PIN AM10 [get_ports pcie_refclk_n]; # Bank 226 Net "PEX_REFCLK_C_N" - MGTREFCLK0N_226
+set_property PACKAGE_PIN AM11 [get_ports pcie_refclk_p]; # Bank 226 Net "PEX_REFCLK_C_P" - MGTREFCLK0P_226
+# fail ---
+#set_property PACKAGE_PIN AM11 [get_ports pcie_refclk_p]
 
 set_property IOSTANDARD LVCMOS12 [get_ports cpu_reset_fpga_n]
 set_property IOSTANDARD LVCMOS12 [get_ports status_led0_fpga]
@@ -191,8 +194,11 @@ set_property PACKAGE_PIN L8  [get_ports qsfp0_tx3_n]; # Bank 231  - MGTYTXN2_231
 set_property PACKAGE_PIN L9  [get_ports qsfp0_tx3_p]; # Bank 231  - MGTYTXP2_231
 set_property PACKAGE_PIN K6  [get_ports qsfp0_tx4_n]; # Bank 231  - MGTYTXN3_231
 set_property PACKAGE_PIN K7  [get_ports qsfp0_tx4_p]; # Bank 231  - MGTYTXP3_231
-set_property PACKAGE_PIN M10 [get_ports qsfp0_mgt_refclk_0_n]; # Bank 231 Net "MGT_SI570_CLOCK0_C_N" - MGTREFCLK0N_231
-set_property PACKAGE_PIN M11 [get_ports qsfp0_mgt_refclk_0_p]; # Bank 231 Net "MGT_SI570_CLOCK0_C_P" - MGTREFCLK0P_231
+set_property PACKAGE_PIN K10 [get_ports qsfp0_mgt_refclk_0_n]; # Bank 231 Net "QSFP0_CLOCK_N"        - MGTREFCLK1N_231
+set_property PACKAGE_PIN K11 [get_ports qsfp0_mgt_refclk_0_p]; # Bank 231 Net "QSFP0_CLOCK_P"        - MGTREFCLK1P_231
+#-- fail
+#set_property PACKAGE_PIN M10 [get_ports qsfp0_mgt_refclk_0_n]; # Bank 231 Net "MGT_SI570_CLOCK0_C_N" - MGTREFCLK0N_231
+#set_property PACKAGE_PIN M11 [get_ports qsfp0_mgt_refclk_0_p]; # Bank 231 Net "MGT_SI570_CLOCK0_C_P" - MGTREFCLK0P_231
 
 set_property PACKAGE_PIN AF1 [get_ports {pcie_rx_n[0]}  ]; # Bank 227  - MGTYrxN3_227
 set_property PACKAGE_PIN AF2 [get_ports {pcie_rx_p[0]}  ]; # Bank 227  - MGTYrxP3_227
@@ -263,4 +269,4 @@ set_property PACKAGE_PIN AM10             [get_ports pcie_refclk_n ]; # Bank 226
 set_property PACKAGE_PIN AM11             [get_ports pcie_refclk_p ]; # Bank 226 Net "PEX_REFCLK_C_P" - MGTREFCLK0P_226
 
 # TODO needed?
-#create_clock -period 10 -name pcie_mgt_refclk_1 [get_ports pcie_refclk_p]
+create_clock -period 10 -name pcie_mgt_refclk_1 [get_ports pcie_refclk_p]
