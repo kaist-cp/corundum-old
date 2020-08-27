@@ -119,7 +119,7 @@ wire mmcm_clkfb;
 // Divide by 7.5 to get output frequency of 125 MHz
 MMCME4_BASE #(
     .BANDWIDTH("OPTIMIZED"),
-    .CLKOUT0_DIVIDE_F(7.3),
+    .CLKOUT0_DIVIDE_F(7.5),
     .CLKOUT0_DUTY_CYCLE(0.5),
     .CLKOUT0_PHASE(0),
     .CLKOUT1_DIVIDE(1),
