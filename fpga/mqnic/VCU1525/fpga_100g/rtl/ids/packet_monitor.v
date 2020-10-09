@@ -22,9 +22,10 @@ module packet_monitor#(
     input axis_packet_ready,                        // Whether if incoming data exists
     input axis_packet_valid,                        // Whether if incoming data is valid packet segment
     input axis_packet_last,                         // Whether if incoming data is last segment of the packet
-    input [DMA_LEN_WIDTH-1:0] axis_descriptor_len,  // 
-    input axis_descriptor_ready,                    //
-    input axis_descriptor_valid                     
+    input [DMA_LEN_WIDTH-1:0] axis_descriptor_len,  // Length of DMA buffer descriptor
+    input axis_descriptor_ready,                    // Whetehr DMA buffer descriptor is ready
+    input axis_descriptor_valid                     // Whether DMA buffer descriptor information is valid
+    
     // TODO may define all input/output regarding AXI Stream interface?
         // Since all signals regarding rx packet(like packet itself, descriptor) should be controlled.
     );
@@ -91,7 +92,6 @@ module packet_monitor#(
                     
                     if (axis_packet_last) begin
                         packet_no_next = packet_no_next+1;
-                        // TODO make sure all packets are 
                         state_next=STATE_IDLE;
                         valid_packet=0;
                     end else begin
