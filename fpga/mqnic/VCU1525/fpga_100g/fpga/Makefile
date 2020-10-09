@@ -1,6 +1,6 @@
 
 # FPGA settings
-FPGA_PART = xcvu9p-fsgd2104-2L-e
+FPGA_PART = xcu200-fsgd2104-2-e
 FPGA_TOP = fpga
 FPGA_ARCH = virtexuplus
 
@@ -52,6 +52,10 @@ SYN_FILES += lib/pcie/rtl/pcie_us_msi.v
 SYN_FILES += lib/pcie/rtl/pcie_tag_manager.v
 SYN_FILES += lib/pcie/rtl/pulse_merge.v
 
+# Additional logic for IDS
+SYN_FILES += rtl/ids/packet_monitor.v
+SYN_FILES += rtl/ids/string_matching_engine.v
+
 # XDC files
 XDC_FILES = fpga.xdc
 XDC_FILES += lib/axis/syn/axis_async_fifo.tcl
@@ -63,6 +67,7 @@ XDC_FILES += ../../../common/syn/tdma_ber_ch.tcl
 IP_TCL_FILES = ip/pcie4_uscale_plus_0.tcl
 IP_TCL_FILES += ip/cmac_usplus_0.tcl
 IP_TCL_FILES += ip/cmac_usplus_1.tcl
+IP_TCL_FILES += ip/ila.tcl
 
 include ../common/vivado.mk
 
@@ -73,6 +78,7 @@ program: $(FPGA_TOP).bit
 	echo "current_hw_device [lindex [get_hw_devices] 0]" >> program.tcl
 	echo "refresh_hw_device -update_hw_probes false [current_hw_device]" >> program.tcl
 	echo "set_property PROGRAM.FILE {$(FPGA_TOP).bit} [current_hw_device]" >> program.tcl
+	echo "set_property PROBES.FILE {$(FPGA_TOP).ltx} [current_hw_device]" >> program.tcl
 	echo "program_hw_devices [current_hw_device]" >> program.tcl
 	echo "exit" >> program.tcl
 	vivado -nojournal -nolog -mode batch -source program.tcl

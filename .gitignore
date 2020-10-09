@@ -3,4 +3,6 @@
 *.pyc
 *.vvp
 *.kate-swp
-
+**/fpga_*g/fpga
+!**/fpga_*g/fpga/Makefile
+modules/

@@ -67,7 +67,7 @@ tmpclean:
 	-rm -rf create_project.tcl run_synth.tcl run_impl.tcl generate_bit.tcl
 
 clean: tmpclean
-	-rm -rf *.bit program.tcl generate_mcs.tcl *.mcs *.prm flash.tcl
+	-rm -rf *.bit *.ltx program.tcl generate_mcs.tcl *.mcs *.prm flash.tcl
 
 distclean: clean
 	-rm -rf rev
@@ -94,7 +94,7 @@ distclean: clean
 %.runs/synth_1/%.dcp: %.xpr $(SYN_FILES_REL) $(INC_FILES_REL) $(XDC_FILES_REL)
 	echo "open_project $*.xpr" > run_synth.tcl
 	echo "reset_run synth_1" >> run_synth.tcl
-	echo "launch_runs synth_1" >> run_synth.tcl
+	echo "launch_runs synth_1 -jobs 64" >> run_synth.tcl
 	echo "wait_on_run synth_1" >> run_synth.tcl
 	echo "exit" >> run_synth.tcl
 	vivado -nojournal -nolog -mode batch -source run_synth.tcl
@@ -103,8 +103,10 @@ distclean: clean
 %.runs/impl_1/%_routed.dcp: %.runs/synth_1/%.dcp
 	echo "open_project $*.xpr" > run_impl.tcl
 	echo "reset_run impl_1" >> run_impl.tcl
-	echo "launch_runs impl_1" >> run_impl.tcl
+	echo "launch_runs impl_1 -jobs 64" >> run_impl.tcl
 	echo "wait_on_run impl_1" >> run_impl.tcl
+	echo "open_run impl_1" >> run_impl.tcl
+	echo "write_debug_probes -force $*.ltx" >> run_impl.tcl
 	echo "exit" >> run_impl.tcl
 	vivado -nojournal -nolog -mode batch -source run_impl.tcl
 
@@ -120,4 +122,7 @@ distclean: clean
 	while [ -e rev/$*_rev$$COUNT.$$EXT ]; \
 	do COUNT=$$((COUNT+1)); done; \
 	cp $@ rev/$*_rev$$COUNT.$$EXT; \
-	echo "Output: rev/$*_rev$$COUNT.$$EXT";
+	cp $*.ltx rev/$*_rev$$COUNT.ltx;
+	echo "Output: rev/$*_rev$COUNT.$EXT";
+	echo "Output: rev/$*_rev$COUNT.ltx";
+

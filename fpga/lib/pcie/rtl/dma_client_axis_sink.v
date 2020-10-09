@@ -515,4 +515,18 @@ end
 
 endgenerate
 
+//ila_ram ila_monitor_inst (
+//    .clk(clk),
+//    .trig_out(),
+//    .trig_out_ack(1'b0),
+//    .trig_in(1'b0),
+//    .trig_in_ack(),
+//    .probe0(state_reg),
+//    .probe1(s_axis_write_data_tlast),
+//    .probe2(last_cycle_reg),
+//    .probe3(cycle_count_reg),
+//    .probe4(0'b0),
+//    .probe5(0'b0)
+//);
+
 endmodule
