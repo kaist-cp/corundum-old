@@ -37,6 +37,8 @@
 CONFIG ?= config.mk
 -include ../$(CONFIG)
 
+JOBS = $(shell nproc)
+
 SYN_FILES_REL = $(patsubst %, ../%, $(SYN_FILES))
 INC_FILES_REL = $(patsubst %, ../%, $(INC_FILES))
 XCI_FILES_REL = $(patsubst %, ../%, $(XCI_FILES))
@@ -94,7 +96,7 @@ distclean: clean
 %.runs/synth_1/%.dcp: %.xpr $(SYN_FILES_REL) $(INC_FILES_REL) $(XDC_FILES_REL)
 	echo "open_project $*.xpr" > run_synth.tcl
 	echo "reset_run synth_1" >> run_synth.tcl
-	echo "launch_runs synth_1 -jobs 64" >> run_synth.tcl
+	echo "launch_runs synth_1 -jobs $(JOBS)" >> run_synth.tcl
 	echo "wait_on_run synth_1" >> run_synth.tcl
 	echo "exit" >> run_synth.tcl
 	vivado -nojournal -nolog -mode batch -source run_synth.tcl
@@ -103,7 +105,7 @@ distclean: clean
 %.runs/impl_1/%_routed.dcp: %.runs/synth_1/%.dcp
 	echo "open_project $*.xpr" > run_impl.tcl
 	echo "reset_run impl_1" >> run_impl.tcl
-	echo "launch_runs impl_1 -jobs 64" >> run_impl.tcl
+	echo "launch_runs impl_1 -jobs $(JOBS)" >> run_impl.tcl
 	echo "wait_on_run impl_1" >> run_impl.tcl
 	echo "open_run impl_1" >> run_impl.tcl
 	echo "write_debug_probes -force $*.ltx" >> run_impl.tcl
@@ -125,4 +127,3 @@ distclean: clean
 	cp $*.ltx rev/$*_rev$$COUNT.ltx;
 	echo "Output: rev/$*_rev$COUNT.$EXT";
 	echo "Output: rev/$*_rev$COUNT.ltx";
-

@@ -733,6 +733,7 @@ always @(posedge clk) begin
     end
 end
 
+// Debug IP on receive data input
 ila_axis port_rx_axis_inst (
    .clk(clk),
    .trig_out(),
@@ -744,35 +745,10 @@ ila_axis port_rx_axis_inst (
    .probe2(rx_axis_tvalid_int),
    .probe3(rx_axis_tready_int),
    .probe4(rx_axis_tlast_int),
-   .probe5(rx_axis_tuser_int)
+   .probe5(rx_axis_tuser_int),
+   .probe6(dma_rx_desc_ready),
+   .probe7(dma_rx_desc_valid)
 );
-
-//ila_axis_desc port_rx_axis_desc_inst(
-//    .clk(clk),
-//.trig_out(),
-//.trig_out_ack(1'b0),
-//.trig_in(1'b0),
-//.trig_in_ack(),
-//.probe0(rx_axis_tdata_int),
-//.probe1(rx_axis_tkeep_int),
-//.probe2(rx_axis_tvalid_int),
-//.probe3(rx_axis_tready_int),
-//.probe4(dma_rx_desc_ready),
-//.probe5(dma_rx_desc_valid)
-//);
-
-//ila_dma_desc ila_dma_desc_int (
-//    .clk(clk),
-//    .trig_out(),
-//    .trig_out_ack(1'b0),
-//    .trig_in(1'b0),
-//    .trig_in_ack(),
-//    .probe0(dma_rx_desc_addr),
-//    .probe1(dma_rx_desc_len),
-//    .probe2(dma_rx_desc_tag),
-//    .probe3(dma_rx_desc_valid),
-//    .probe4(dma_rx_desc_ready)
-//);
 
 // AXI lite interconnect
 parameter AXIL_S_COUNT = 1;

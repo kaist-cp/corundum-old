@@ -207,6 +207,7 @@ wire                                 ids_axis_rq_tready;
 wire                                 ids_axis_rq_tlast;
 wire [AXIS_PCIE_RQ_USER_WIDTH-1:0]   ids_axis_rq_tuser;
 
+// Debug core on RAM interface
 //ila_ram dma_if_ram (
 //    .clk(clk),
 //    .trig_out(),
@@ -221,19 +222,22 @@ wire [AXIS_PCIE_RQ_USER_WIDTH-1:0]   ids_axis_rq_tuser;
 //    .probe5(ram_wr_cmd_ready)
 //);
 
-//ila_axis dma_if_axis (
-//    .clk(clk),
-//    .trig_out(),
-//    .trig_out_ack(1'b0),
-//    .trig_in(1'b0),
-//    .trig_in_ack(),
-//    .probe0(m_axis_rq_tdata),
-//    .probe1(m_axis_rq_tkeep),
-//    .probe2(m_axis_rq_tvalid),
-//    .probe3(m_axis_rq_tready),
-//    .probe4(m_axis_rq_tlast),
-//    .probe5(m_axis_rq_tuser)
-//);
+// Debug core on AXI stream packet data
+ila_axis dma_if_axis (
+   .clk(clk),
+   .trig_out(),
+   .trig_out_ack(1'b0),
+   .trig_in(1'b0),
+   .trig_in_ack(),
+   .probe0(m_axis_rq_tdata),
+   .probe1(m_axis_rq_tkeep),
+   .probe2(m_axis_rq_tvalid),
+   .probe3(m_axis_rq_tready),
+   .probe4(m_axis_rq_tlast),
+   .probe5(m_axis_rq_tuser),
+   .probe6(1'b0),               // Redundant probe
+   .probe7(1'b0)                // Redundant probe
+);
 
 dma_if_pcie_us_rd #(
     .AXIS_PCIE_DATA_WIDTH(AXIS_PCIE_DATA_WIDTH),
